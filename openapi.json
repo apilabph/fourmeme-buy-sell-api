@@ -1,0 +1,382 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Four.Meme BNB Buy and Sell API",
+    "version": "0.1.0-beta",
+    "description": "Four.Meme BNB Buy and Sell API: unsigned transactions, stage checks, local signing and atomic 0.25% fees. Settlement deployment is required before trading."
+  },
+  "servers": [
+    {
+      "url": "https://fourmeme-trade.apilabph.workers.dev"
+    }
+  ],
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Process liveness only",
+        "responses": {
+          "200": {
+            "description": "JSON result. Builds remain disabled until settlement deployment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/capabilities": {
+      "get": {
+        "summary": "Readiness and supported stages",
+        "responses": {
+          "200": {
+            "description": "JSON result. Builds remain disabled until settlement deployment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/deployment": {
+      "get": {
+        "summary": "Expected router identity and setup status",
+        "responses": {
+          "200": {
+            "description": "JSON result. Builds remain disabled until settlement deployment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/market": {
+      "post": {
+        "summary": "Inspect a token stage without signing",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "token"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Builds remain disabled until settlement deployment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "409": {
+            "description": "Approval required or stage changed"
+          },
+          "422": {
+            "description": "Unsupported market, insufficient funds, or failed simulation"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "503": {
+            "description": "SETUP_REQUIRED or RPC unavailable"
+          }
+        }
+      }
+    },
+    "/api/quote": {
+      "post": {
+        "summary": "Simulate net output with a funded wallet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "publicKey",
+                  "token",
+                  "action",
+                  "amount"
+                ],
+                "properties": {
+                  "publicKey": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "token": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "buy",
+                      "sell"
+                    ]
+                  },
+                  "amount": {
+                    "type": "string",
+                    "description": "Buy: decimal native currency; sell: raw integer token units."
+                  },
+                  "slippageBps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "default": 100
+                  },
+                  "maxServiceFeeBps": {
+                    "type": "integer",
+                    "minimum": 25,
+                    "maximum": 10000,
+                    "default": 25
+                  },
+                  "deadlineSeconds": {
+                    "type": "integer",
+                    "minimum": 30,
+                    "maximum": 120,
+                    "default": 60
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Builds remain disabled until settlement deployment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "409": {
+            "description": "Approval required or stage changed"
+          },
+          "422": {
+            "description": "Unsupported market, insufficient funds, or failed simulation"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "503": {
+            "description": "SETUP_REQUIRED or RPC unavailable"
+          }
+        }
+      }
+    },
+    "/api/trade": {
+      "post": {
+        "summary": "Build a simulated unsigned buy or sell",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "publicKey",
+                  "token",
+                  "action",
+                  "amount"
+                ],
+                "properties": {
+                  "publicKey": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "token": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "buy",
+                      "sell"
+                    ]
+                  },
+                  "amount": {
+                    "type": "string",
+                    "description": "Buy: decimal native currency; sell: raw integer token units."
+                  },
+                  "slippageBps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "default": 100
+                  },
+                  "maxServiceFeeBps": {
+                    "type": "integer",
+                    "minimum": 25,
+                    "maximum": 10000,
+                    "default": 25
+                  },
+                  "deadlineSeconds": {
+                    "type": "integer",
+                    "minimum": 30,
+                    "maximum": 120,
+                    "default": 60
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Builds remain disabled until settlement deployment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "409": {
+            "description": "Approval required or stage changed"
+          },
+          "422": {
+            "description": "Unsupported market, insufficient funds, or failed simulation"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "503": {
+            "description": "SETUP_REQUIRED or RPC unavailable"
+          }
+        }
+      }
+    },
+    "/api/approval": {
+      "post": {
+        "summary": "Build an exact token allowance or zero reset",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "publicKey",
+                  "token",
+                  "action",
+                  "amount"
+                ],
+                "properties": {
+                  "publicKey": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "token": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "buy",
+                      "sell"
+                    ]
+                  },
+                  "amount": {
+                    "type": "string",
+                    "description": "Buy: decimal native currency; sell: raw integer token units."
+                  },
+                  "slippageBps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "default": 100
+                  },
+                  "maxServiceFeeBps": {
+                    "type": "integer",
+                    "minimum": 25,
+                    "maximum": 10000,
+                    "default": 25
+                  },
+                  "deadlineSeconds": {
+                    "type": "integer",
+                    "minimum": 30,
+                    "maximum": 120,
+                    "default": 60
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Builds remain disabled until settlement deployment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "409": {
+            "description": "Approval required or stage changed"
+          },
+          "422": {
+            "description": "Unsupported market, insufficient funds, or failed simulation"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "503": {
+            "description": "SETUP_REQUIRED or RPC unavailable"
+          }
+        }
+      }
+    }
+  }
+}

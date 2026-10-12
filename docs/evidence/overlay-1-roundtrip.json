@@ -1,0 +1,25 @@
+{
+  "verifiedAt": "2026-10-12T20:49:06.233Z",
+  "chainId": 56,
+  "token": "0x5c85d6c6825ab4032337f11ee92a72df936b46f6",
+  "stage": "pancake-v2",
+  "market": "0xb7C6f7dB26Cde42550e4017bb9855BBaAa20eb44",
+  "mode": "roundtrip",
+  "block": "127277585",
+  "runtimeCodeHash": "0xab56707a1edb467c8ae8dd0224625135fb1b667affcb9987469a1574f70ebeab",
+  "simulation": "passed",
+  "boughtRaw": "1034518095638252418",
+  "buyFeeWei": "249376558603",
+  "soldNetWei": "99004919788657",
+  "sellFeeWei": "248132631049",
+  "elapsedMs": 55,
+  "stateOverrides": [
+    "undeployed settlement runtime",
+    "test probe runtime",
+    "synthetic caller native balance"
+  ],
+  "protocolStateOverridden": false,
+  "signed": false,
+  "submitted": false,
+  "fundedLiveTrade": false
+}

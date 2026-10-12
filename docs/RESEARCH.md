@@ -1,0 +1,11 @@
+# Integration research ? October 13, 2026
+
+Target users are bot and wallet developers who need a single inspected transaction across curve and graduation stages. Direct launchpad contracts and DEX routers are free alternatives. Our added value is canonical venue checks, an atomic fee, absolute net-output minimums, partial-fill refunds, simulation and an inspectable local-signing flow. These are implemented safeguards, not claims of universal uniqueness or verified subscriber demand.
+
+The portfolio's volume study found sustained venue activity before selecting this project: Four.Meme: $5.61m over seven days and $31.72m over thirty days. These are historical observations from the portfolio research, not API demand or earnings forecasts. Begin with a public beta and measure real integrations; hosting, RPC and support costs can exceed fees without adoption.
+
+Reviewed primary sources: [official trade guide](https://github.com/four-meme-community/fourmeme-docs/blob/main/docs/trade-guide.md), [helper interface](https://github.com/four-meme-community/fourmeme-docs/blob/main/contracts/interfaces/ITokenManagerHelper3.sol). The helper distinguishes native pairs, quote tokens, dynamic fees and liquidityAdded. AmountMsgValue and amountFunds are not interchangeable. Gross protocol minimums do not by themselves guarantee a net payout after our service fee; our settlement checks the actual net payout.
+
+Native BNB pairs only. Stablecoin/ERC20-quoted launches are not covered; observed recent activity includes these, so total venue volume overstates our initial addressable routes. Canonical V2/V3 routing and current protocol restrictions are validated during simulation. No broad support, cheapest-price or fastest-execution claim is made.
+
+Hosting verification found PublicNode rejected reads originating from the Worker. The beta now uses the [BNB-documented public endpoint](https://docs.bnbchain.org/bnb-smart-chain/developers/json_rpc/json-rpc-endpoint/) by default. It is shared infrastructure; configure a dedicated EVM_RPC_URL secret for reserved capacity. Read-only state-overlay evidence was collected through PublicNode locally; the default provider may not support overlay diagnostics or event discovery.

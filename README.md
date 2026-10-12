@@ -1,0 +1,60 @@
+# Four.Meme BNB Buy and Sell API
+
+Build buy and sell transactions for Four.Meme BNB with keys kept inside your bot. The API checks the token's current stage, simulates the trade, and sets a minimum net output. Independent integration; not an official launchpad product.
+
+**0.1.0-beta: source and hosted documentation published; funded trading is pending.** The settlement contract has not been deployed. Market inspection works before setup. Quote/trade/approval endpoints return `SETUP_REQUIRED` until the operator deploys and configures the reviewed contract. No fees are being collected by this new service yet. This is separate from RapidAPI and the Pump API.
+
+[Hosted docs](https://fourmeme-trade.apilabph.workers.dev) · [OpenAPI](openapi.json) · [Release status](docs/RELEASE.md)
+
+## Try market inspection now
+
+```bash
+curl https://fourmeme-trade.apilabph.workers.dev/api/market \
+  -H "Content-Type: application/json" \
+  -d '{"token":"TOKEN_ADDRESS"}'
+```
+
+Replace TOKEN_ADDRESS with a real BNB-paired launchpad token address. No API key is required. Public beta limits are six requests per minute per IP and twenty per minute per service at the edge; shared RPC/hosting limits also apply.
+
+## Buy after settlement setup
+
+```bash
+curl https://fourmeme-trade.apilabph.workers.dev/api/trade \
+  -H "Content-Type: application/json" \
+  -d '{"publicKey":"YOUR_PUBLIC_WALLET","token":"TOKEN_ADDRESS","action":"buy","amount":"0.01","slippageBps":100,"maxServiceFeeBps":25}'
+```
+
+The wallet must have funds for the trade **and gas**. Buy amounts are decimal BNB strings. For a sell, set `action:"sell"` and supply a raw integer token amount. No private key belongs in any API request.
+
+If a sell returns `APPROVAL_REQUIRED`, send the same body to `/api/approval`, inspect and sign that exact approval locally, wait for its receipt, then rebuild. A nonzero insufficient allowance is reset to zero first. Unlimited approvals are never requested.
+
+The response contains an unsigned transaction, simulated output, fee, refund, stage, block snapshot and deadline. Your bot checks these, signs locally and submits through its own RPC. The API never signs, sends transactions or retries a failed trade automatically. See [local bot integration](examples/bot.mjs).
+
+## Supported markets
+
+Four.Meme V2 native-BNB curves and canonical Pancake V2 graduation pools. V1 tokens, non-BNB pairs and other DEX versions are excluded. Curve sells require multiples of 1,000,000,000 raw token units; amounts are never silently rounded.
+
+Tokens that charge a tax when transferred from your wallet to the settlement contract cannot be sold through this beta. Reverting, rebasing or nonstandard tokens can fail simulation. Protocol taxes, hook fees and restrictions are evaluated by the actual chain call; a quote is not a guarantee of future execution.
+
+## Fees and safeguards
+
+The service fee is **0.25% (25 basis points)**, sent atomically in BNB to `0x4629EE1f5d2A87D7b8Ed9982DA8ad6A5bd3F01F0`. Buy fees are 0.25% of native currency actually spent by the protocol, included within your total budget; unused input is refunded. Sell fees are deducted from the native proceeds received from the protocol before payout. Protocol fees/taxes and network gas are separate.
+
+A failed swap reverts the service fee. Network gas can still be charged. API calls alone do not earn trading fees, and forks can remove this fee. The fee recipient and rate are compiled constants, not request parameters.
+
+The settlement contract verifies the stage again during execution. A changed stage reverts; rebuild instead of reusing a stale transaction. Absolute minimum output is checked against the buyer's received token balance or the seller's native payout **after** our fee. The API verifies exact deployed bytecode and fee constants before returning a trade.
+
+## Operator setup and development
+
+```bash
+npm ci --ignore-scripts
+npm run compile
+npm test
+npm run check
+npm run build:check
+npm audit --audit-level=moderate
+```
+
+See [deployment](docs/DEPLOYMENT.md) for the one-time on-chain setup. User funding and live tests are deferred. Do not point SETTLEMENT_ROUTER at a token, wallet, proxy or unrelated router; a bytecode mismatch is rejected.
+
+The reviewed Solidity artifact is reproducible with the pinned compiler. Keys stay in local wallets; never commit them or put them in shell arguments. Cloudflare and RPC quotas are shared. No paid hosting upgrade, uptime SLA, speed guarantee or independent security audit is claimed. Build latency and chain confirmation are separate measurements.

@@ -1,0 +1,25 @@
+{
+  "verifiedAt": "2026-10-12T20:47:42.155Z",
+  "chainId": 56,
+  "token": "0x9bdfd2ec7ad101821a574742149cd54670a94444",
+  "stage": "bonding-curve",
+  "market": "0x5c952063c7fc8610FFDB798152D69F0B9550762b",
+  "mode": "roundtrip",
+  "block": "127277398",
+  "runtimeCodeHash": "0xab56707a1edb467c8ae8dd0224625135fb1b667affcb9987469a1574f70ebeab",
+  "simulation": "passed",
+  "boughtRaw": "23065669708376000000000",
+  "buyFeeWei": "249376558603",
+  "soldNetWei": "97530925162339",
+  "sellFeeWei": "244438408928",
+  "elapsedMs": 56,
+  "stateOverrides": [
+    "undeployed settlement runtime",
+    "test probe runtime",
+    "synthetic caller native balance"
+  ],
+  "protocolStateOverridden": false,
+  "signed": false,
+  "submitted": false,
+  "fundedLiveTrade": false
+}
