@@ -28,7 +28,7 @@ The wallet must have funds for the trade **and gas**. Buy amounts are decimal BN
 
 If a sell returns `APPROVAL_REQUIRED`, send the same body to `/api/approval`, inspect and sign that exact approval locally, wait for its receipt, then rebuild. A nonzero insufficient allowance is reset to zero first. Unlimited approvals are never requested.
 
-The response contains an unsigned transaction, simulated output, fee, refund, stage, block snapshot and deadline. Your bot checks these, signs locally and submits through its own RPC. The API never signs, sends transactions or retries a failed trade automatically. See [local bot integration](examples/bot.mjs).
+The response contains an unsigned transaction, simulated output, fee, refund, stage, block snapshot and deadline. Your bot checks these, signs locally and submits through its own RPC. The API never signs, sends transactions or retries a failed trade automatically. See [local bot integration](examples/bot.mjs): prepareTrade returns a transaction for your review; executeTrade uses your already configured local wallet client, checks your strategy minimum, submits once and waits for a receipt. It never asks the API to sign. If submission status is uncertain, inspect the transaction/nonce before retrying.
 
 ## Supported markets
 

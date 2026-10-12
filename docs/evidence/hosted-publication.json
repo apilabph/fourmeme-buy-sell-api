@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-10-12T21:09:58.651Z",
+  "baseUrl": "https://fourmeme-trade.apilabph.workers.dev",
+  "workerVersion": "254fbba8-91f8-4f89-94d3-c8622c66bdd1",
+  "checks": [
+    {
+      "path": "/",
+      "httpStatus": 200
+    },
+    {
+      "path": "/api/health",
+      "httpStatus": 200
+    },
+    {
+      "path": "/api/capabilities",
+      "httpStatus": 200
+    },
+    {
+      "path": "/api/deployment",
+      "httpStatus": 200
+    },
+    {
+      "path": "/openapi.json",
+      "httpStatus": 200
+    },
+    {
+      "path": "/robots.txt",
+      "httpStatus": 200
+    },
+    {
+      "path": "/sitemap.xml",
+      "httpStatus": 200
+    },
+    {
+      "path": "/api/trade",
+      "httpStatus": 503,
+      "code": "SETUP_REQUIRED"
+    },
+    {
+      "path": "/api/quote",
+      "httpStatus": 503,
+      "code": "SETUP_REQUIRED"
+    },
+    {
+      "path": "/api/approval",
+      "httpStatus": 503,
+      "code": "SETUP_REQUIRED"
+    },
+    {
+      "path": "/api/market",
+      "httpStatus": 200,
+      "token": "0x5c85d6c6825ab4032337f11ee92a72df936b46f6",
+      "stage": "pancake-v2",
+      "roundTripMs": 888
+    }
+  ],
+  "onChainSettlementDeployed": false,
+  "fundedLiveTrades": false
+}
