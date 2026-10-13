@@ -1,0 +1,58 @@
+{
+  "reviewDate": "2026-10-14",
+  "checkedAt": "2026-10-13T16:38:49.064Z",
+  "repository": "https://github.com/apilabph/fourmeme-buy-sell-api",
+  "baseCommit": "bfb2877d743f6312daa706af56ab57408b2dff0e",
+  "node": "v24.18.0",
+  "testCount": 36,
+  "results": [
+    {
+      "command": "npm run compile",
+      "exitCode": 0,
+      "durationMs": 14355,
+      "logSha256": "1e156772ef0ccd75f6128fa837c97bb164432d59b5f3325d37990e1721f4ad54"
+    },
+    {
+      "command": "git diff --exit-code -- artifacts/TradeSettlement.json",
+      "exitCode": 0,
+      "durationMs": 442,
+      "logSha256": "6c5b6fe68a28f3122a5eeda3dea0626dc1a8ac6465638004924fb67015679874"
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "durationMs": 27859,
+      "logSha256": "500d62124dfde0818de24b9ad5d64366f83c0838f7f5b7b756b7f011a02004f4"
+    },
+    {
+      "command": "npm run check",
+      "exitCode": 0,
+      "durationMs": 3111,
+      "logSha256": "0ef1d5a671f545cffde7f4d047b522623926f80a3fd1f8659e23b440d1cf5b2e"
+    },
+    {
+      "command": "npm run build:check",
+      "exitCode": 0,
+      "durationMs": 4871,
+      "logSha256": "15e47816f897cc7a116f97ebe57d0e2fa4035ddde4f675f807c5f227320281df"
+    },
+    {
+      "command": "npm audit --audit-level=moderate",
+      "exitCode": 0,
+      "durationMs": 2651,
+      "logSha256": "6d8c5c8f3d7684adb070417bd608d01ae90aa3dc26a65af03ffda4955f38d9a3"
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0,
+      "durationMs": 162,
+      "logSha256": "54bf868ba3baccda2a389021553cf3f547ef842633ee542884b69a39e6e9fce1"
+    }
+  ],
+  "scope": "Internal source review and offline regression/contract-fixture checks. No live chain request, wallet access, transaction signing/broadcast, funded trade or Worker deployment.",
+  "compatibility": "Send failures or invalid hashes throw SUBMISSION_UNKNOWN with submissionAttempted:true and retrySafe:false. No persistent cross-call deduplication.",
+  "customerRpcOnly": true,
+  "rapidApiChanged": false,
+  "contractBytecodeChanged": false,
+  "fundedTradingVerified": false
+}
