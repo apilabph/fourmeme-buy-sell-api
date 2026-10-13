@@ -1,5 +1,12 @@
 # 0.1.0-beta release
 
+## Customer RPC deployment — October 13, 2026
+
+Deployed source `160e229a3a74fa2c9757a0d59568850ace30545f`, Worker version `e929ee10-be3b-4b86-b22f-15c1fca84184`. [Hosted readback](evidence/customer-rpc-hosted.json) passed 11 checks: root HTML matched the reviewed source, health/capabilities reported customer mode, OpenAPI targeted localhost, and former chain POST routes returned 410 CUSTOMER_RPC_REQUIRED. The documentation host does not prepare trades. Follow [customer RPC setup](CUSTOMER-RPC.md).
+
+Local checks passed; see [review](REVIEW.md). No chain requests, signatures, broadcasts, contract deployment or funded trades were performed for this release. Existing settlement/funded-test requirements remain. Older release records below describe the previous hosted architecture.
+
+
 October 13, 2026. Public GitHub source and Worker documentation are published. On-chain settlement deployment and funded trades have not happened.
 
 - Tests: 16 passed locally. Solidity compiled with pinned solc 0.8.37, Paris target and optimizer/viaIR settings recorded in the artifact.
