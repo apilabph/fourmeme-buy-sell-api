@@ -58,3 +58,7 @@ npm audit --audit-level=moderate
 See [deployment](docs/DEPLOYMENT.md) for the one-time on-chain setup. User funding and live tests are deferred. Do not point SETTLEMENT_ROUTER at a token, wallet, proxy or unrelated router; a bytecode mismatch is rejected.
 
 The reviewed Solidity artifact is reproducible with the pinned compiler. Keys stay in local wallets; never commit them or put them in shell arguments. Cloudflare and RPC quotas are shared. No paid hosting upgrade, uptime SLA, speed guarantee or independent security audit is claimed. Build latency and chain confirmation are separate measurements.
+
+## Separate developer website (local review)
+
+A redesigned website is ready for local review in [website/](website/README.md). Run `npm run site:preview`, then open http://127.0.0.1:8814. It includes a read-only playground, three-language examples, fees, coverage and troubleshooting. Local browser and automated checks are documented in [website verification](docs/WEBSITE.md). The redesign has not been deployed and no custom domain is configured.

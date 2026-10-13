@@ -20,3 +20,7 @@ October 13, 2026. Source, settlement contract, HTTP/RPC boundary, local examples
 Read-only mainnet state-overlay round trips passed for: bonding-curve, pancake-v2. Only our undeployed router/probe code and synthetic caller funding were overlaid; protocol storage was not changed. The evidence records exact hashes, blocks and measured outputs. No real funds, signatures or broadcasts were used.
 
 Both included route stages passed state-overlay round trips. Funded tests and settlement deployment remain prerequisites for activating hosted trades. Dynamic protocol upgrades, taxes, RPC availability and execution-time market changes remain operating risks; simulation does not guarantee inclusion or success.
+
+## Local website review — October 13, 2026
+
+Reviewed the separate website, generated request examples and loopback-only preview server. Fixed zero slippage being silently replaced with the default. Public inputs stay text in the DOM and generated JavaScript; POSIX cURL values are shell-quoted. Preview requests reject private/unknown fields, incomplete quote bodies, foreign origins/hosts, oversized inputs and every transaction/build/approval endpoint. Only pinned-origin reads are forwarded; credentials are not forwarded. Clarified quote versus simulation versus submission, request timing versus confirmation, and funded-trade readiness. Browser QA uses mocked UI cases; actual read-only checks are separate. No contract or trading behavior changed.

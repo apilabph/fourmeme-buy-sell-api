@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-13T05:32:34.688Z",
+  "mode": "read-only through local preview proxy",
+  "results": [
+    {
+      "api": "fourmeme",
+      "path": "/api/capabilities",
+      "status": 200,
+      "ms": 80,
+      "setup": false
+    },
+    {
+      "api": "fourmeme",
+      "path": "/api/market",
+      "status": 200,
+      "ms": 657,
+      "stage": "pancake-v2"
+    }
+  ]
+}
