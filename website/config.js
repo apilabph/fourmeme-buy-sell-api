@@ -7,10 +7,10 @@ export const config = {
   native: "BNB",
   evm: true,
   four: true,
-  accent: "#f5bd91",
+  accent: "#6cff32",
   port: 8814,
   fee: "0x4629EE1f5d2A87D7b8Ed9982DA8ad6A5bd3F01F0",
-  hero: "Four.Meme trades.<br>Less guesswork.<br><span>More context.</span>",
+  hero: "Buy and Sell Four.Meme API",
   lead: "Check a token’s current market, understand its amount units and prepare a transaction your own bot can verify and sign.",
   status:
     "Market inspection is available. Quote, trade and approval endpoints need the operator’s settlement contract deployment. Funded trading and fee collection are not active.",

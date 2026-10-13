@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-10-13T12:25:18.914Z",
+  "scope": "Local Edge computed-color samples and responsive layout checks; not a complete accessibility audit.",
+  "results": [
+    {
+      "api": "fourmeme-buy-sell-api",
+      "textSamples": 74,
+      "minimumTextRatio": 8.94,
+      "failures": [],
+      "inputBorderRatio": 4.62,
+      "placeholderRatio": 9.92,
+      "layout": [
+        {
+          "width": 320,
+          "overflow": false,
+          "headingVisible": true
+        },
+        {
+          "width": 390,
+          "overflow": false,
+          "headingVisible": true
+        },
+        {
+          "width": 760,
+          "overflow": false,
+          "headingVisible": true
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "headingVisible": true
+        },
+        {
+          "width": 1024,
+          "overflow": false,
+          "headingVisible": true
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "headingVisible": true
+        }
+      ]
+    }
+  ],
+  "reference": "https://four.meme/en"
+}
