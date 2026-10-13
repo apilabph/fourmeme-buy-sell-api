@@ -67,10 +67,32 @@ test("playground rejects invalid units, fee-unrelated slippage changes and malfo
   ]) {
     assert.throws(() => requestFor({ ...values, ...change }, true));
   }
-  if (config.four)
-    assert.throws(() =>
-      requestFor({ ...values, action: "sell", amount: "1000000001" }, true),
-    );
+});
+
+test("Four.Meme sells preserve arbitrary raw units for the API to validate against the current stage", async () => {
+  const req = requestFor(
+    { ...values, action: "sell", amount: "1000000001" },
+    true,
+  );
+  assert.equal(req.body.amount, "1000000001");
+  assert.match(explainError("INVALID_PRECISION"), /bonding curve/);
+  let calls = 0;
+  await preview(
+    async (base) => {
+      const result = await fetch(base + req.path, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(req.body),
+      });
+      assert.equal(result.status, 200);
+      assert.equal(calls, 1);
+    },
+    async (url, options) => {
+      calls++;
+      assert.equal(JSON.parse(options.body).amount, "1000000001");
+      return Response.json({ stage: "pancake-v2" });
+    },
+  );
 });
 test("generated JavaScript keeps adversarial strings as data and sends exactly one unsigned request", async () => {
   const req = {

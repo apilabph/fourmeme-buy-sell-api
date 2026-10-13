@@ -164,6 +164,30 @@ test("rejects unexpected fields, keys, bad precision, amounts and fee limits", (
   ])
     assert.throws(() => input({ ...request, ...extra }));
 });
+
+test("curve lot size is enforced only before graduation without rounding the user's amount", async () => {
+  const sell = { ...request, action: "sell", amount: "1000000001" };
+  await assert.rejects(
+    () =>
+      build(
+        fixture({ allowance: 10n ** 20n, stageId: 0 }).rpc,
+        { SETTLEMENT_ROUTER: router },
+        sell,
+      ),
+    (e) => e.code === "INVALID_PRECISION",
+  );
+  const result = await build(
+    fixture({ allowance: 10n ** 20n, stageId: 1 }).rpc,
+    { SETTLEMENT_ROUTER: router },
+    sell,
+  );
+  const decoded = decodeFunctionData({
+    abi: artifact.abi,
+    data: result.transaction.data,
+  });
+  assert.equal(decoded.args[1], 1000000001n);
+  assert.equal(result.inputAmount, sell.amount);
+});
 test("HTTP returns explicit setup state, enforces body limit and protects public endpoint", async () => {
   const send = (body, context = { test: true }) =>
     handle(
@@ -295,7 +319,10 @@ test("local bot rejects modified fee calldata and enforces its own price before 
     };
     const publicClient = {
       getChainId: async () => config.chainId,
-      waitForTransactionReceipt: async () => ({ status: "success" }),
+      waitForTransactionReceipt: async ({ hash }) => ({
+        status: "success",
+        transactionHash: hash,
+      }),
     };
     await assert.rejects(
       () =>
@@ -316,6 +343,42 @@ test("local bot rejects modified fee calldata and enforces its own price before 
     });
     assert.equal(result.receipt.status, "success");
     assert.equal(submitted, 1);
+    for (const mode of ["timeout", "reverted", "cancelled", "missing-hash"]) {
+      const before = submitted;
+      publicClient.waitForTransactionReceipt = async ({ hash }) => {
+        if (mode === "timeout") throw new Error("Provider timed out");
+        return {
+          status: mode === "reverted" ? "reverted" : "success",
+          transactionHash:
+            mode === "missing-hash"
+              ? undefined
+              : mode === "cancelled"
+                ? "0x" + "cd".repeat(32)
+                : hash,
+        };
+      };
+      await assert.rejects(
+        () =>
+          executeTrade({
+            ...args,
+            walletClient,
+            publicClient,
+            minimumAcceptableOut: 990000n,
+          }),
+        (error) => {
+          assert.equal(error.hash, "0x" + "ab".repeat(32));
+          assert.equal(error.submitted, true);
+          if (mode === "cancelled")
+            assert.equal(error.replacementHash, "0x" + "cd".repeat(32));
+          return true;
+        },
+      );
+      assert.equal(
+        submitted,
+        before + 1,
+        "The helper must never resubmit after an uncertain outcome",
+      );
+    }
   } finally {
     globalThis.fetch = original;
   }

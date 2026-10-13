@@ -68,10 +68,7 @@ export function requestFor(values, strict = false) {
           config.native +
           ".",
       );
-    if (config.four && body.action === "sell" && raw % 1000000000n !== 0n)
-      throw Error(
-        "For Four.Meme bonding-curve sells, use a raw amount divisible by 1,000,000,000. Do not round a balance upward.",
-      );
+    // The API checks the current stage. Graduated pools do not use the curve's lot size.
   }
   body.slippageBps = Number(values.slippage ?? 100);
   if (
@@ -117,6 +114,8 @@ export function codeFor(request, language) {
 
 export function explainError(code) {
   const help = {
+    INVALID_PRECISION:
+      "This Four.Meme token is still on its bonding curve. Sell raw units in multiples of 1,000,000,000; never round your balance upward. Graduated pools do not have this lot-size restriction.",
     SETUP_REQUIRED:
       "The service operator still needs to deploy and configure the settlement contract. Changing your wallet or slippage will not fix this.",
     RPC_UNAVAILABLE:

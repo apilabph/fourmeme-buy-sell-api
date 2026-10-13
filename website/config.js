@@ -29,7 +29,7 @@ export const config = {
   evidence:
     "Read-only state-overlay tests exercised a curve and Pancake V2 buy/sell roundtrip against mainnet protocol state. The router was not deployed and no funds moved.",
   special:
-    "Bonding-curve sells must use raw token amounts divisible by 1,000,000,000. Do not round upward. The playground uses this conservative rule for every sell; the API checks the actual stage.",
+    "Bonding-curve sells must use raw token amounts divisible by 1,000,000,000. Do not round upward. Graduated pools accept other raw amounts; the API checks the current stage.",
   api: "https://fourmeme-trade.apilabph.workers.dev",
   github: "https://github.com/apilabph/fourmeme-buy-sell-api",
 };
